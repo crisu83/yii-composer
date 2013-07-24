@@ -1,9 +1,9 @@
 <?php
 /**
  * InstallHandler class file.
+ * @author Christoffer Niska <christoffer.niska@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Tobias Munk <schmunk@usrbin.de>
- * @author Christoffer Niska <christoffer.niska@gmail.com>
  * @copyright Copyright &copy; Christoffer Niska 2013-
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @package Crisu83.YiiComposer;
@@ -25,8 +25,6 @@ class InstallHandler
 {
     const PARAM_WRITABLE = 'yii-install-writable';
     const PARAM_EXECUTABLE = 'yii-install-executable';
-    const PARAM_CONFIG = 'yii-install-config';
-    const PARAM_COMMANDS = 'yii-install-commands';
 
     /**
      * Sets the correct permissions of files and directories.
@@ -62,42 +60,6 @@ class InstallHandler
                 echo "\n\tThe file was not found: " . getcwd() . DIRECTORY_SEPARATOR . $path . "\n";
                 return;
             }
-        }
-    }
-
-    /**
-     * Executes a yii command.
-     * @param CommandEvent $event
-     */
-    public static function run(CommandEvent $event)
-    {
-        $options = array_merge(
-            array(
-                self::PARAM_COMMANDS => array(),
-            ),
-            $event->getComposer()->getPackage()->getExtra()
-        );
-
-        if (!isset($options[self::PARAM_CONFIG])) {
-            throw new \Exception('Please specify the "' . self::PARAM_CONFIG . '" parameter in composer.json.');
-        }
-        $configFile = getcwd() . '/' . $options[self::PARAM_CONFIG];
-        if (!is_file($configFile)) {
-            throw new \Exception("Config file does not exist: $configFile");
-        }
-
-        require_once(__DIR__ . '/../../../vendor/yiisoft/yii/framework/yiic.php');
-
-        $application = \Yii::createConsoleApplication($configFile);
-        $application->commandRunner->addCommands(YII_PATH . '/cli/commands');
-        $request = $application->getRequest();
-
-        foreach ((array)$options[self::PARAM_COMMANDS] as $command) {
-            $params = str_getcsv($command, ' '); // see http://stackoverflow.com/a/6609509/291573
-            $request->setParams($params);
-            list($route, $params) = $request->resolve();
-            echo "Running command: yiic {$command}\n";
-            $application->runAction($route, $params);
         }
     }
 }
