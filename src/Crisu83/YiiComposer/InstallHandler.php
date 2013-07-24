@@ -10,10 +10,6 @@
 
 namespace Crisu83\YiiComposer;
 
-defined('YII_DEBUG') or define('YII_DEBUG', true);
-
-defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
-
 use Composer\Script\Event;
 
 /**
