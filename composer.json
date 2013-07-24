@@ -1,7 +1,7 @@
 {
     "name": "crisu83/yii-composer",
     "description": "Composer callbacks for the Yii PHP framework.",
-    "keywords": ["yii", "configuration"],
+    "keywords": ["yii", "composer"],
     "type": "library",
     "license": "BSD-3-Clause",
     "authors": [
@@ -24,7 +24,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-0": {
-            "Crisu83": "./src"
+            "Crisu83": "/src"
         }
     }
 }
