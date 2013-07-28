@@ -51,7 +51,7 @@ class InstallHandler
         }
 
         foreach ((array)$options[self::PARAM_EXECUTABLE] as $path) {
-            echo "Setting executable: $path ...";
+            echo "Setting executable: $path ... ";
             if (is_file($path)) {
                 chmod($path, 0755);
                 echo "done\n";
